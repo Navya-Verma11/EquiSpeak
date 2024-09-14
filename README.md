@@ -7,11 +7,7 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Technologies](#technologies)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
 - [Future Enhancements](#future-enhancements)
-- [License](#license)
 
 ## Introduction
 
@@ -40,10 +36,8 @@ In a world striving for gender equality, addressing gender bias in communication
   - `@tensorflow/tfjs`
   - `@tensorflow-models/universal-sentence-encoder`
 
-## Installation
+## Future Enhancements
 
-To get started with **EqualSpeak**, follow these steps:
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/equalspeak.git
+- **Crowd-Sourced Term Updates**: Integrate a backend system for updating biased terms and suggestions.
+- **Analytics**: Develop features to analyze common biases across various industries or regions.
+- **Tool Integration**: Explore integration with other writing tools or communication platforms for broader adoption.
