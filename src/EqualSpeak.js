@@ -20,10 +20,16 @@ const EqualSpeak = () => {
   const analyzeText = async (text) => {
     setIsLoading(true);
     try {
-
       let res = await getGroqChatCompletion(text);
-      console.log(res["choices"][0]["message"].split("\n")[-1]);
-
+      let suggestions = res["choices"][0]["message"]["content"];
+    
+      let suggestionsArr = parseSuggestions(suggestions);
+      console.log(suggestionsArr);
+      let obj = {
+        biasDetected: true, 
+        suggestions: [suggestionsArr[2]]
+      };
+      setAnalysis(obj);
     } catch (error) {
       console.error('Error analyzing text:', error);
       setAnalysis({ error: 'Failed to analyze text. Please try again.' });
@@ -31,12 +37,22 @@ const EqualSpeak = () => {
     setIsLoading(false);
   };
 
+  const parseSuggestions = (suggestionsText) => {
+    // Assuming the suggestions are separated by new lines or other delimiters
+    // You may need to adjust this based on how suggestions are formatted in the response
+    const lines = suggestionsText.split('\n');
+    return lines.map(line => ({
+      original: inputText,
+      replacement: line
+    }));
+  };
+
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
-  const applySuggestion = (original, suggestion) => {
-    setInputText(inputText.replace(original, suggestion));
+  const applySuggestion = (suggestion) => {
+    setInputText(suggestion);
   };
 
   return (
@@ -66,9 +82,14 @@ const EqualSpeak = () => {
               <ul>
                 {analysis.suggestions.map((suggestion, index) => (
                   <li key={index} className="mb-2">
-                    Replace "{suggestion.original}" with "{suggestion.replacement}"
+                    <div className="mb-1">
+                      <strong>Original:</strong> {inputText}
+                    </div>
+                    <div className="mb-1">
+                      <strong>Suggested Replacement:</strong> {suggestion.replacement}
+                    </div>
                     <button
-                      onClick={() => applySuggestion(suggestion.original, suggestion.replacement)}
+                      onClick={() => applySuggestion(suggestion.replacement)}
                       className="ml-2 px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                     >
                       Apply
